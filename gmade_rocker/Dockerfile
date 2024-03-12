@@ -14,9 +14,7 @@ RUN apt-get update \
     python3.10-venv \
     python3-pip
 RUN install2.r --error \
-     pak \
-     ROCS \
-     SSPA
+     pak
 RUN R -e "pak::pkg_install(c('graphite','clusterProfiler','xcms','IPO','sva','WGCNA', 'KEGGREST', 'KEGGgraph', 'Rdisop', 'qvalue', 'GlobalAncova', 'globaltest', 'siggenes', 'Rgraphviz','ChemmineR','metaMS', 'msPurity', 'mixOmics', 'fgsea', 'Rita','lumi','CompoundDb','MetaboAnnotation','MsBackendMgf','MsBackendMsp','genefilter','metapone','GSVA','limma','TCGAbiolinks','SummarizedExperiment','RAMClustR','ChemoSpec','webchem','InterpretMSSpectrum','tcltk2','plotly','caret','caretEnsemble','pROC','gWQS','UpSetR','multcomp','isva','fs','keras','pins','table1','flextable','torch','mlr3verse','ooplah','dictionar6','reticulate'),upgrade = TRUE,ask= FALSE, dependencies = TRUE)" 
 RUN R -e "pak::pkg_install(c('rstudio/tfhub','rstudio/tfdatasets','yufree/enviGCMS','yufree/pmd','yufree/mzrtsim','yufree/rmwf','mlr-org/mlr3proba','mlr-org/mlr3extralearners@*release'),upgrade = TRUE,ask= FALSE, dependencies = FALSE)"
 RUN rm -rf /tmp/downloaded_packages 
