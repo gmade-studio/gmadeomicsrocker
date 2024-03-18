@@ -22,9 +22,6 @@ RUN apt-get update \
     strip /usr/local/lib/R/site-library/*/libs/*.so &&\
     python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir \ 
-    tensorflow==2.11.* \
-    tensorflow-hub \
-    tensorflow-datasets \
     scipy \
     protobuf \
     requests \
