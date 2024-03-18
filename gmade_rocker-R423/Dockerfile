@@ -40,7 +40,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     mygene \
     configparser \
     numpy \
-    sklearn \
+    scikit-learn \
     tqdm \
     lifelines \
     matplotlib \
