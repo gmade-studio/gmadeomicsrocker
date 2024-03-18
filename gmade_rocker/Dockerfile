@@ -14,9 +14,9 @@ RUN apt-get update \
     python3.10-venv \
     python3-pip
 RUN install2.r --error \
-     pak \
-     sva
-RUN R -e "pak::pkg_install(c('xcms','WGCNA', 'KEGGREST', 'KEGGgraph', 'plotly','caret','caretEnsemble','pROC','fs','keras','tensorflow','pins','flextable','torch','mlr3verse','R6','reticulate', 'fgsea'),upgrade = TRUE,ask= FALSE, dependencies = FALSE)" 
+     pak 
+RUN R -e "pak::pkg_install(c('xcms','WGCNA', 'KEGGREST', 'KEGGgraph', 'plotly','caret','caretEnsemble','pROC','sva'),upgrade = TRUE,ask= FALSE, dependencies = FALSE)" 
+RUN R -e "pak::pkg_install(c('fs','keras','tensorflow','pins','flextable','torch','mlr3verse','R6','reticulate', 'fgsea'),upgrade = TRUE,ask= FALSE, dependencies = FALSE)" 
 RUN R -e "pak::pkg_install(c('graphite','clusterProfiler','igraph','ggraph'),upgrade = TRUE,ask= FALSE, dependencies = FALSE)"
 RUN R -e "pak::pkg_install(c('rstudio/tfhub','rstudio/tfdatasets','yufree/enviGCMS','yufree/pmd','yufree/mzrtsim','yufree/rmwf','mlr-org/mlr3proba','mlr-org/mlr3extralearners@*release'),upgrade = TRUE,ask= FALSE, dependencies = FALSE)"
 RUN rm -rf /tmp/downloaded_packages 
