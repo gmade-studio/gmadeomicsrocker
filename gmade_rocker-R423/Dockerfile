@@ -16,7 +16,7 @@ RUN apt-get update \
 RUN install2.r --error \
      pak &&\
     R -e "pak::pkg_install(c('xcms','WGCNA', 'KEGGREST', 'KEGGgraph', 'plotly','pROC','sva','limma','fs','keras','tensorflow','pins','flextable','torch','mlr3verse','R6','reticulate', 'GSVA','graphite','clusterProfiler','igraph','ggraph'),upgrade = TRUE,ask= FALSE, dependencies = NA)"  &&\
-    R -e "pak::pkg_install(c('rstudio/tfhub','rstudio/tfdatasets','yufree/enviGCMS','yufree/pmd','yufree/mzrtsim','yufree/rmwf','mlr-org/mlr3proba','mlr-org/mlr3extralearners@*release','satijalab/seurat','hrbrmstr/hrbrthemes','immunogenomics/harmony'),upgrade = TRUE,ask= FALSE, dependencies = NA)" &&\
+    R -e "pak::pkg_install(c('rstudio/tfhub','rstudio/tfdatasets','yufree/enviGCMS','yufree/pmd','yufree/mzrtsim','yufree/rmwf','mlr-org/mlr3proba','mlr-org/mlr3extralearners@*release','hrbrmstr/hrbrthemes','immunogenomics/harmony'),upgrade = TRUE,ask= FALSE, dependencies = NA)" &&\
     rm -rf /tmp/downloaded_packages && \
     R -e "pak::cache_clean()" &&\
     strip /usr/local/lib/R/site-library/*/libs/*.so 
