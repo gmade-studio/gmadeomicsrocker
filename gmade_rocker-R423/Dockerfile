@@ -13,8 +13,7 @@ RUN apt-get update \
     ## python-env && pip3 support
     python3.10-venv \
     python3-pip &&\
-    install2.r --error \
-     pak &&\
+    install2.r --error pak &&\
     R -e "pak::pkg_install(c('xcms','WGCNA', 'KEGGREST', 'KEGGgraph', 'plotly','pROC','sva','limma','fs','keras','tensorflow','pins','flextable','torch','mlr3verse','R6','reticulate', 'GSVA','graphite','clusterProfiler','igraph','ggraph'),upgrade = TRUE,ask= FALSE, dependencies = NA)"  &&\
     R -e "pak::pkg_install(c('rstudio/tfhub','rstudio/tfdatasets','yufree/enviGCMS','yufree/pmd','yufree/mzrtsim','yufree/rmwf','mlr-org/mlr3extralearners@*release','hrbrmstr/hrbrthemes','immunogenomics/harmony'),upgrade = TRUE,ask= FALSE, dependencies = NA)" &&\
     R -e "install.packages('mlr3proba', repos = 'https://mlr-org.r-universe.dev')" &&\
@@ -46,4 +45,5 @@ RUN apt-get update \
     scipy \
     scanpy  && \
     python3 -m pip install --no-cache-dir torch  torchvision torchaudio  --index-url https://download.pytorch.org/whl/cpu  &&\
-    python3 -m pip install --no-cache-dir pyg_lib torch_scatter torch_sparse torch_cluster  torch_spline_conv  -f https://data.pyg.org/whl/torch-2.0.0+cpu.html 
+    python3 -m pip install --no-cache-dir pyg_lib torch_scatter torch_sparse torch_cluster  torch_spline_conv  -f https://data.pyg.org/whl/torch-2.0.0+cpu.html &&\
+    apt-get clean
