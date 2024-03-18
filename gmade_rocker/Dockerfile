@@ -14,13 +14,12 @@ RUN apt-get update \
     python3.10-venv \
     python3-pip
 RUN install2.r --error \
-     pak 
-RUN R -e "pak::pkg_install(c('xcms','WGCNA', 'KEGGREST', 'KEGGgraph', 'plotly','pROC','sva','limma','fs','keras','tensorflow','pins','flextable','torch','mlr3verse','R6','reticulate', 'GSVA','graphite','clusterProfiler','igraph','ggraph'),upgrade = TRUE,ask= FALSE, dependencies = NA)" 
-RUN R -e "pak::pkg_install(c('rstudio/tfhub','rstudio/tfdatasets','yufree/enviGCMS','yufree/pmd','yufree/mzrtsim','yufree/rmwf','mlr-org/mlr3proba','mlr-org/mlr3extralearners@*release'),upgrade = TRUE,ask= FALSE, dependencies = NA)"
-RUN rm -rf /tmp/downloaded_packages 
-RUN R -e "pak::cache_clean()"
-RUN strip /usr/local/lib/R/site-library/*/libs/*.so 
-WORKDIR /usr/src/app
+     pak &&\
+    R -e "pak::pkg_install(c('xcms','WGCNA', 'KEGGREST', 'KEGGgraph', 'plotly','pROC','sva','limma','fs','keras','tensorflow','pins','flextable','torch','mlr3verse','R6','reticulate', 'GSVA','graphite','clusterProfiler','igraph','ggraph'),upgrade = TRUE,ask= FALSE, dependencies = NA)"  &&\
+    R -e "pak::pkg_install(c('rstudio/tfhub','rstudio/tfdatasets','yufree/enviGCMS','yufree/pmd','yufree/mzrtsim','yufree/rmwf','mlr-org/mlr3proba','mlr-org/mlr3extralearners@*release','satijalab/seurat','hrbrmstr/hrbrthemes','immunogenomics/harmony'),upgrade = TRUE,ask= FALSE, dependencies = NA)" &&\
+    rm -rf /tmp/downloaded_packages && \
+    R -e "pak::cache_clean()" &&\
+    strip /usr/local/lib/R/site-library/*/libs/*.so 
 RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir \ 
     tensorflow==2.11.* \
@@ -43,7 +42,8 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     lifelines \
     matplotlib \
     captum \
-    scipy 
-RUN python3 -m pip install --no-cache-dir torch  torchvision torchaudio  --index-url https://download.pytorch.org/whl/cpu 
-RUN python3 -m pip install --no-cache-dir pyg_lib torch_scatter torch_sparse torch_cluster  torch_spline_conv  -f https://data.pyg.org/whl/torch-2.0.0+cpu.html 
-COPY . .
+    scipy \
+    scanpy  && \
+    python3 -m pip install --no-cache-dir torch  torchvision torchaudio  --index-url https://download.pytorch.org/whl/cpu  &&\
+    python3 -m pip install --no-cache-dir pyg_lib torch_scatter torch_sparse torch_cluster  torch_spline_conv  -f https://data.pyg.org/whl/torch-2.0.0+cpu.html 
+
