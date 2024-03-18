@@ -12,16 +12,16 @@ RUN apt-get update \
     tk8.6-dev \
     ## python-env && pip3 support
     python3.10-venv \
-    python3-pip
-RUN install2.r --error \
+    python3-pip &&\
+    install2.r --error \
      pak &&\
     R -e "pak::pkg_install(c('xcms','WGCNA', 'KEGGREST', 'KEGGgraph', 'plotly','pROC','sva','limma','fs','keras','tensorflow','pins','flextable','torch','mlr3verse','R6','reticulate', 'GSVA','graphite','clusterProfiler','igraph','ggraph'),upgrade = TRUE,ask= FALSE, dependencies = NA)"  &&\
     R -e "pak::pkg_install(c('rstudio/tfhub','rstudio/tfdatasets','yufree/enviGCMS','yufree/pmd','yufree/mzrtsim','yufree/rmwf','mlr-org/mlr3extralearners@*release','hrbrmstr/hrbrthemes','immunogenomics/harmony'),upgrade = TRUE,ask= FALSE, dependencies = NA)" &&\
     R -e "install.packages('mlr3proba', repos = 'https://mlr-org.r-universe.dev')" &&\
     rm -rf /tmp/downloaded_packages && \
     R -e "pak::cache_clean()" &&\
-    strip /usr/local/lib/R/site-library/*/libs/*.so 
-RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+    strip /usr/local/lib/R/site-library/*/libs/*.so &&\
+    python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir \ 
     tensorflow==2.11.* \
     tensorflow-hub \
