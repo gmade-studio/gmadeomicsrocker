@@ -14,6 +14,8 @@ RUN yay -Syu --noconfirm &&\
     yay -S --noconfirm tabix &&\
     yay -S --noconfirm seqkit &&\
     yay -S --noconfirm bedtools &&\
+    yay -S --noconfirm imagemagick &&\
+    yay -S --noconfirm poppler &&\
     #yay -S --noconfirm rstudio-server-git &&\
     # wgbstools 设置环境变量
     pacman -S python-pandas python-numpy python-scipy --noconfirm &&\
@@ -41,14 +43,17 @@ RUN yay -Syu --noconfirm &&\
     conda create -n bsmap -c bioconda bsmap -y &&\
     yay -Sc --noconfirm &&\
     conda clean --all &&\
+    R -e "options ('repos' = c(CRAN ='https://mirrors.tuna.tsinghua.edu.cn/CRAN/'))" &&\
     R -e "install.packages('pak')" &&\ 
+    R -e "pak::pak("r-lib/ragg#171")" &&\
     R -e "pak::pkg_install(c('optparse','openxlsx','R6','reticulate', 'GSVA','graphite','igraph','ggraph','TCGAbiolinks','SummarizedExperiment','doParallel','yaml','tinytex','KEGGgraph', 'plotly','pROC','sva','glue','fs','png','reshape2','readxl','sampling','pdftools','umap','gridExtra','ggpubr','GenomicRanges','data.table','clusterProfiler','org.Hs.eg.db','msigdbr','xlsx','KEGGREST','GenomicDataCommons','foreach','doMC','Seurat', 'dbplyr', 'RColorBrewer','rjson','tidyverse','mlr3verse','limma'),upgrade = TRUE,ask= FALSE, dependencies = NA)"  &&\
     R -e "pak::pkg_install(c('mlr-org/mlr3extralearners@*release'),upgrade = TRUE,ask= FALSE, dependencies = NA)" &&\
-    R -e "install.packages('mlr3proba', repos = 'https://mlr-org.r-universe.dev')" &&\
+    R -e "pak::pak('devtools')" &&\
+    R -e "devtools::install_github('mlr-org/mlr3proba')" &&\
     R -e "tinytex::install_tinytex(force = TRUE)" &&\
     R -e "tinytex::tlmgr_repo('http://mirrors.tuna.tsinghua.edu.cn/CTAN/')" &&\
-    rm -rf /tmp/downloaded_packages && \
-    R -e "pak::cache_clean()" 
+    R -e "pak::cache_clean()"  && \
+    rm -rf /tmp/*
 ENV PATH=wgbs_tools:$PATH
 ENV PATH=UXM_deconv:$PATH
 ENV CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
@@ -61,3 +66,5 @@ EXPOSE 8080
 EXPOSE 8787
 USER builduser
 ENTRYPOINT [ "/bin/bash", "-c", "source /opt/miniconda3/etc/profile.d/conda.sh && conda activate" ]
+
+
