@@ -1,36 +1,6 @@
-FROM manjarolinux/base:latest
-RUN pacman -Sy --noconfirm --debug gawk gnupg libgpg-error gnupg gpgme &&\
-    pacman -Sy --noconfirm --debug archlinux-keyring manjaro-keyring &&\
-    rm -fr /etc/pacman.d/gnupg &&\
-    pacman-key --init &&\
-    pacman-key --populate archlinux manjaro &&\
-    pacman -Sc --noconfirm &&\
-    pacman -Syu --noconfirm && pacman -Sc --noconfirm &&\
-    pacman -S --needed \
-    # PACKAGES
-    base-devel \
-    binutils \
-    fakeroot \
-    gawk \
-    gettext \
-    gcc \
-    git \
-    make \
-    nano \
-    pigz \
-    pbzip2 \
-    openssh \
-    sudo \
-    which \
-    --noconfirm && pacman -Sc --noconfirm && \
-    ## CREATE A NORMAL USER FOR YAY
-    useradd fallingstar10 -m &&\
-    passwd -d fallingstar10 &&\
-    # Allow the fallingstar10 passwordless sudo
-    printf 'root ALL=(ALL) ALL\n' | tee -a /etc/sudoers &&\
-    printf 'fallingstar10 ALL=(ALL) ALL\n' | tee -a /etc/sudoers &&\
-    pacman -S yay --noconfirm
-RUN yay -S --noconfirm snakemake &&\
+FROM danysk/docker-manjaro-linux-with-yay:latest
+RUN yay -Syu --noconfirm &&\
+    yay -S --noconfirm snakemake &&\
     yay -S --noconfirm r &&\
     pacman -S gcc-fortran cmake  --noconfirm &&\
     yay -S --noconfirm snakemake &&\
@@ -61,7 +31,7 @@ RUN yay -S --noconfirm snakemake &&\
     ./configure --prefix=`pwd` &&\
     make &&\
     make install &&\
-    cd .. &&\
+    cd .. &&\ 
     g++ -o mhaptools  haptk.cpp convert.cpp mhap.cpp merge.cpp beta.cpp summary.cpp utils.cpp -I ./htslib-1.10.2/htslib -I ./include  -L ./htslib-1.10.2/ -lhts -std=c++11 &&\
     cd .. &&\
     source /opt/miniconda3/etc/profile.d/conda.sh && conda activate &&\
@@ -75,7 +45,7 @@ RUN yay -S --noconfirm snakemake &&\
     yay -Sc --noconfirm &&\
     conda clean --all &&\
     R -e "options ('repos' = c(CRAN ='https://mirrors.tuna.tsinghua.edu.cn/CRAN/'))" &&\
-    R -e "install.packages('pak',repos = c(CRAN ='https://mirrors.tuna.tsinghua.edu.cn/CRAN/'))" &&\
+    R -e "install.packages('pak',repos = c(CRAN ='https://mirrors.tuna.tsinghua.edu.cn/CRAN/'))" &&\ 
     R -e "pak::pak('r-lib/ragg#171')" &&\
     R -e "pak::pkg_install(c('optparse','openxlsx','R6','reticulate', 'GSVA','graphite','igraph','ggraph','TCGAbiolinks','SummarizedExperiment','doParallel','yaml','tinytex','KEGGgraph', 'plotly','pROC','sva','glue','fs','png','reshape2','readxl','sampling','pdftools','umap','gridExtra','ggpubr','GenomicRanges','data.table','clusterProfiler','org.Hs.eg.db','msigdbr','xlsx','KEGGREST','GenomicDataCommons','foreach','doMC','Seurat', 'dbplyr', 'RColorBrewer','rjson','tidyverse','mlr3verse','limma'),upgrade = TRUE,ask= FALSE, dependencies = NA)"  &&\
     R -e "pak::pkg_install(c('mlr-org/mlr3extralearners@*release'),upgrade = TRUE,ask= FALSE, dependencies = NA)" &&\
@@ -90,13 +60,12 @@ ENV PATH=UXM_deconv:$PATH
 ENV CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 ENV LD_LIBRARY_PATH=mHapTools/htslib-1.10.2/lib
 ENV PATH=mHapTools:$PATH
-WORKDIR /home/fallingstar10
+WORKDIR /home/builduser
 EXPOSE 80
 EXPOSE 443
 EXPOSE 8080
 EXPOSE 8787
-USER fallingstar10
+USER builduser
 ENTRYPOINT [ "/bin/bash", "-c", "source /opt/miniconda3/etc/profile.d/conda.sh && conda activate" ]
-
 
 
