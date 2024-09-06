@@ -60,12 +60,11 @@ ENV PATH=UXM_deconv:$PATH
 ENV CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 ENV LD_LIBRARY_PATH=mHapTools/htslib-1.10.2/lib
 ENV PATH=mHapTools:$PATH
-WORKDIR /home/builduser
 EXPOSE 80
 EXPOSE 443
 EXPOSE 8080
 EXPOSE 8787
-USER builduser
-ENTRYPOINT [ "/bin/bash", "-c", "source /opt/miniconda3/etc/profile.d/conda.sh && conda activate" ]
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["source /opt/miniconda3/etc/profile.d/conda.sh && conda activate && /bin/bash -il"]
 
 
