@@ -2,7 +2,7 @@ FROM danysk/docker-manjaro-linux-with-yay:latest
 RUN yay -Syu --noconfirm &&\
     yay -S --noconfirm snakemake &&\
     yay -S --noconfirm r &&\
-    #pacman -S python-pulp --noconfirm &&\
+    pacman -S gcc-fortran --noconfirm &&\
     yay -S --noconfirm snakemake &&\
     yay -S --noconfirm miniconda3 &&\
     yay -S --noconfirm fastqc &&\
