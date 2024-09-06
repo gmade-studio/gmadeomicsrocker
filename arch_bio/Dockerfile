@@ -2,7 +2,7 @@ FROM danysk/docker-manjaro-linux-with-yay:latest
 RUN yay -Syu --noconfirm &&\
     yay -S --noconfirm snakemake &&\
     yay -S --noconfirm r &&\
-    pacman -S gcc-fortran --noconfirm &&\
+    pacman -S gcc-fortran cmake  --noconfirm &&\
     yay -S --noconfirm snakemake &&\
     yay -S --noconfirm miniconda3 &&\
     yay -S --noconfirm fastqc &&\
@@ -16,6 +16,7 @@ RUN yay -Syu --noconfirm &&\
     yay -S --noconfirm bedtools &&\
     yay -S --noconfirm imagemagick &&\
     yay -S --noconfirm poppler &&\
+    yay -S --noconfirm r-tidyverse &&\
     #yay -S --noconfirm rstudio-server-git &&\
     # wgbstools 设置环境变量
     pacman -S python-pandas python-numpy python-scipy --noconfirm &&\
